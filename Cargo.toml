@@ -1,0 +1,7 @@
+[package]
+name = "aoc_2025"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+libaocparser_rs = { git = "https://github.com/Cryxtalix/libaocparser_rs" }
