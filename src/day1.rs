@@ -31,15 +31,15 @@ fn puzzle1(){
     let aoc: Vec<PuzzleOne> = aoc.slice_as_type(None, None).unwrap();
 
     let mut dial: u32 = 50;
-    let mut times_passed = 0;
+    let mut pass_zero = 0;
     for i in aoc {
         dial += i.value;
         dial %= 100;
         if dial == 0 {
-            times_passed += 1;
+            pass_zero += 1;
         }
     }
-    println!("Puzzle 1: {}", times_passed);
+    println!("Puzzle 1: {}", pass_zero);
 }
 
 #[derive(Debug)]
@@ -66,20 +66,20 @@ fn puzzle2() {
     
     // Attempt brute force method
     let dial: Cell<u32> = Cell::new(50);
-    let times_passed: Cell<u32> = Cell::new(0);
+    let pass_zero: Cell<u32> = Cell::new(0);
 
-    fn add(dial: &Cell<u32>, times_passed: &Cell<u32>) {
+    fn add(dial: &Cell<u32>, pass_zero: &Cell<u32>) {
         if dial.get() == 99 {
             dial.set(0);
-            times_passed.set(times_passed.get() + 1);
+            pass_zero.set(pass_zero.get() + 1);
         } else {
             dial.set(dial.get() + 1);
         }
     }
 
-    fn sub(dial: &Cell<u32>, times_passed: &Cell<u32>) {
+    fn sub(dial: &Cell<u32>, pass_zero: &Cell<u32>) {
         if dial.get() == 1 {
-            times_passed.set(times_passed.get() + 1);
+            pass_zero.set(pass_zero.get() + 1);
         }
         if dial.get() == 0 {
             dial.set(99);
@@ -91,20 +91,20 @@ fn puzzle2() {
     for i in &aoc {
         if i.direction {
             for _ in 0..i.value {
-                add(&dial, &times_passed);
+                add(&dial, &pass_zero);
             }
         } else {
             for _ in 0..i.value {
-                sub(&dial, &times_passed);
+                sub(&dial, &pass_zero);
             }
         }
     }
 
-    println!("Brute force method: {}", times_passed.get());
+    println!("Brute force method: {}", pass_zero.get());
 
     // Attempt modulo method
     let mut dial: i32 = 50;
-    let mut times_passed = 0;
+    let mut pass_zero = 0;
 
     for rotation in aoc {
         let mut value = rotation.value;
@@ -112,32 +112,32 @@ fn puzzle2() {
 
         // convert all values to < 100
         if value > 100 {
-            times_passed += value / 100;
+            pass_zero += value / 100;
             value %= 100;
         }
 
         if direction { // Right
             dial += value;
             if dial > 99 {
-                times_passed += 1;
+                pass_zero += 1;
                 dial %= 100;
             }
         }
 
         else { // Left
-            let is_zero = dial == 0;
+            let dial_is_zero = dial == 0;
             dial -= value;
             // Value cannot be more than 100
-            // If dial is currently 0, there is no chance of crossing 0 again
-            if !is_zero && dial <= 0 {
-                times_passed += 1;
+            // If dial started at 0, there is no chance of crossing 0 again
+            if !dial_is_zero && dial <= 0 {
+                pass_zero += 1;
             }
             if dial < 0 {
                 dial += 100;
             }
         }
     }
-    println!("Modulo method: {}", times_passed);
+    println!("Modulo method: {}", pass_zero);
 }
 
 pub fn run() {
