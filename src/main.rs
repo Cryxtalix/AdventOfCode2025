@@ -7,6 +7,7 @@ pub struct PuzzleError;
 
 fn main() {
     println!();
+
     day1::run();
     println!();
     day2::run();
