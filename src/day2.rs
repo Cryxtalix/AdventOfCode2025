@@ -53,8 +53,8 @@ fn puzzle1(threads: u8) {
 
     let mut threadhandles = Vec::with_capacity(3);
     for _ in 0..threads {
-        let work = aoc.clone(); //Arc<Mutex<Vec<T>>>
-        let result_sum = result_sum.clone(); //Arc<Mutex<Vec<T>>>
+        let work = aoc.clone();
+        let result_sum = result_sum.clone();
         let handle = thread::spawn(move || {
             loop {
                 let work = {
@@ -140,8 +140,8 @@ fn puzzle2(threads: u8) {
 
     let mut threadhandles = Vec::with_capacity(3);
     for _ in 0..threads {
-        let work = aoc.clone(); //Arc<Mutex<Vec<T>>>
-        let result_sum = result_sum.clone(); //Arc<Mutex<Vec<T>>>
+        let work = aoc.clone();
+        let result_sum = result_sum.clone();
         let handle = thread::spawn(move || {
             loop {
                 let work = {
