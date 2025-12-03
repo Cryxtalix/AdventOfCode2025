@@ -1,11 +1,9 @@
-use libaocparser_rs::AocParser;
+use libaocparser_rs::*;
 use std::{
     str::FromStr,
     cell::Cell,
 };
-
-#[derive(Debug, PartialEq, Eq)]
-struct PuzzleError;
+use crate::PuzzleError;
 
 #[derive(Debug)]
 struct PuzzleOne {
@@ -27,7 +25,7 @@ impl FromStr for PuzzleOne {
 }
 
 fn puzzle1(){
-    let aoc = AocParser::new("inputs/day1/input.txt").unwrap();
+    let aoc = AocParser::new("inputs/day1/input.txt", Separator::Newline).unwrap();
     let aoc: Vec<PuzzleOne> = aoc.slice_as_type(None, None).unwrap();
 
     let mut dial: u32 = 50;
@@ -61,7 +59,7 @@ impl FromStr for PuzzleTwo {
 }
 
 fn puzzle2() {
-    let aoc = AocParser::new("inputs/day1/input.txt").unwrap();
+    let aoc = AocParser::new("inputs/day1/input.txt", Separator::Newline).unwrap();
     let aoc: Vec<PuzzleTwo> = aoc.slice_as_type(None, None).unwrap();
     
     // Attempt brute force method
@@ -141,7 +139,8 @@ fn puzzle2() {
 }
 
 pub fn run() {
-    println!("Day 1");
+    println!("============= Day 1 =============");
+
     puzzle1();
     puzzle2();
 }

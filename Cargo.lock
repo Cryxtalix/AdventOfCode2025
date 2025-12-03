@@ -12,7 +12,7 @@ dependencies = [
 [[package]]
 name = "libaocparser_rs"
 version = "0.1.0"
-source = "git+https://github.com/Cryxtalix/libaocparser_rs#b857ad632f270c769632609dec1991700562485a"
+source = "git+https://github.com/Cryxtalix/libaocparser_rs#fb948aa2ebf7a058ad6015a12561de7d210feed4"
 dependencies = [
  "thiserror",
 ]
