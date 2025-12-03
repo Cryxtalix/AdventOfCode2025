@@ -40,10 +40,51 @@ fn puzzle1() {
         let final_val = (first_digit * 10) + second_digit;
         total += final_val;
     }
-    println!("Day 3: {}", total);
+    println!("Puzzle 1: {}", total);
+}
+
+fn puzzle2() {
+    // Select earliest highest value digit
+    fn get_highest(s: &str, start_pos: usize, end_pos: usize) -> (usize, u64) {
+        let slice = &s[start_pos..end_pos];
+        let slice = slice.as_bytes();
+        let (pos, val) = slice
+            .iter()
+            .rev()
+            .enumerate()
+            .max_by_key(|(_, val)| **val).unwrap();
+        // Invert rev value with -(pos - (len - 1))
+        // Then add start pos to get real position
+        let pos = (-((pos as i32) - ((slice.len() as i32) - 1))) + (start_pos as i32);
+        let pos = pos as usize;
+        let val = *val as char;
+        let val: u64 = val.to_string().parse().unwrap();
+        (pos, val)
+    }
+
+    let aoc = AocParser::new("inputs/day3/input.txt", Separator::Newline).unwrap();
+    let aoc = aoc.get();
+ 
+    let mut total = 0;
+    for bank in aoc {
+        let mut bank_max = 0;
+        let mut front_search_limit: usize = 0;
+
+        for i in (1..13).rev() {
+            let end_search_limit = 100 - i + 1;
+            let (pos, val) = get_highest(&bank, front_search_limit, end_search_limit);
+            front_search_limit = pos + 1;
+            let ten: u64 = 10;
+            let val = val * ten.pow((i - 1) as u32);
+            bank_max += val;
+        }
+        total += bank_max;
+    }
+    println!("Puzzle 2: {}", total);
 }
 
 pub fn run() {
     println!("============= Day 3 =============");
     puzzle1();
+    puzzle2();
 }
