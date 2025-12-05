@@ -21,7 +21,7 @@ impl FromStr for IDRanges {
     type Err = PuzzleError;
 
     fn from_str(s: &str) -> Result<Self, PuzzleError> {
-        let (first, last) = s.trim().split_once("-").ok_or(PuzzleError)?;
+        let (first, last) = s.split_once("-").ok_or(PuzzleError)?;
         let first: u64 = str::parse(first).map_err(|_|PuzzleError)?;
         let last: u64 = str::parse(last).map_err(|_|PuzzleError)?;
         Ok(IDRanges { first, last })
