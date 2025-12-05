@@ -83,6 +83,7 @@ fn puzzle1(threads: u8) {
 }
 
 // Brute forced! >:-(
+#[allow(unused)]
 fn puzzle2(threads: u8) {
     fn get_divisors(len: usize) -> Vec<usize> {
         match len {
