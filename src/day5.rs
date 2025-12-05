@@ -88,7 +88,7 @@ fn puzzle2(aoc: AocParser) {
     }
 
     let mut fresh_ranges: Vec<FreshRangeInc> = aoc.slice_as_type(None, Some(167)).unwrap();
-    fresh_ranges.sort_by(|a, b| a.start.cmp(&b.start));
+    fresh_ranges.sort_unstable_by_key(|a| a.start);
     let length = fresh_ranges.len();
 
     let mut total: u64 = 0;
