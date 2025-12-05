@@ -28,7 +28,7 @@ impl FromStr for IDRanges {
     }
 }
 
-fn puzzle1(threads: u8) {
+fn puzzle1(aoc: &AocParser, threads: u8) {
     fn compute(range: IDRanges) -> u64 {
         let mut ret: u64 = 0;
         for i in range.first..range.last+1 {
@@ -45,7 +45,6 @@ fn puzzle1(threads: u8) {
         ret
     }
 
-    let aoc = AocParser::new("inputs/day2/input.txt", Separator::Str(",")).unwrap();
     let aoc: Arc<Mutex<Vec<IDRanges>>> = Arc::new(Mutex::new(
         aoc.slice_as_type::<IDRanges>(None, None).unwrap()
     ));
@@ -79,7 +78,7 @@ fn puzzle1(threads: u8) {
     }
 
     let results = Arc::into_inner(result_sum).unwrap().into_inner().unwrap();
-    println!("Puzzle 1: {}", results);
+    print!("Puzzle 1: {}", results);
 }
 
 // Brute forced! >:-(
@@ -168,10 +167,10 @@ fn puzzle2(threads: u8) {
     }
 
     let results = Arc::into_inner(result_sum).unwrap().into_inner().unwrap();
-    println!("Puzzle 2(naive): {}", results);
+    print!("Puzzle 2(naive): {}", results);
 }
 
-fn puzzle2_opt() {
+fn puzzle2_opt(aoc: AocParser) {
     fn get_divisors(len: usize) -> Vec<usize> {
         match len {
             2 => vec![1],
@@ -208,7 +207,6 @@ fn puzzle2_opt() {
         u64::from_str(&ret).unwrap()
     }
 
-    let aoc = AocParser::new("inputs/day2/input.txt", Separator::Str(",")).unwrap();
     let aoc: Vec<IDRanges> = aoc.slice_as_type::<IDRanges>(None, None).unwrap();
 
     // Create new vector
@@ -273,21 +271,23 @@ fn puzzle2_opt() {
         }
     }
 
-    println!("Puzzle 2(optimised): {}", total);
+    print!("Puzzle 2: {}", total);
 }
 
 pub fn run() {
     println!("============= Day 2 =============");
 
+    let aoc = AocParser::new("inputs/day2/input.txt", Separator::Str(",")).unwrap();
+
     let now = Instant::now();
-    puzzle1(4);
+    puzzle1(&aoc, 4);
     let elapsed = now.elapsed();
-    println!("Time taken: {:.2?}", elapsed);
+    print!(" [{:.2?}]", elapsed);
+    println!();
 
-    //let now = Instant::now();
-    //puzzle2(8);
-    //let elapsed = now.elapsed();
-    //println!("Time taken: {:.2?}", elapsed);
-
-    puzzle2_opt();
+    let now = Instant::now();
+    puzzle2_opt(aoc);
+    let elapsed = now.elapsed();
+    print!(" [{:.2?}]", elapsed);
+    println!();
 }

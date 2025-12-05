@@ -1,5 +1,6 @@
 use libaocparser_rs::*;
 use std::{
+    time::Instant,
     str::FromStr,
     cell::Cell,
 };
@@ -24,8 +25,7 @@ impl FromStr for PuzzleOne {
     }
 }
 
-fn puzzle1(){
-    let aoc = AocParser::new("inputs/day1/input.txt", Separator::Newline).unwrap();
+fn puzzle1(aoc: AocParser){
     let aoc: Vec<PuzzleOne> = aoc.slice_as_type(None, None).unwrap();
 
     let mut dial: u32 = 50;
@@ -37,7 +37,7 @@ fn puzzle1(){
             pass_zero += 1;
         }
     }
-    println!("Puzzle 1: {}", pass_zero);
+    print!("Puzzle 1: {}", pass_zero);
 }
 
 #[derive(Debug)]
@@ -58,8 +58,7 @@ impl FromStr for PuzzleTwo {
     }
 }
 
-fn puzzle2() {
-    let aoc = AocParser::new("inputs/day1/input.txt", Separator::Newline).unwrap();
+fn puzzle2_brute(aoc: AocParser) {
     let aoc: Vec<PuzzleTwo> = aoc.slice_as_type(None, None).unwrap();
     
     // Attempt brute force method
@@ -98,7 +97,11 @@ fn puzzle2() {
         }
     }
 
-    println!("Brute force method: {}", pass_zero.get());
+    print!("Brute force method: {}", pass_zero.get());
+}
+
+fn puzzle2(aoc: AocParser) {
+    let aoc: Vec<PuzzleTwo> = aoc.slice_as_type(None, None).unwrap();
 
     // Attempt modulo method
     let mut dial: i32 = 50;
@@ -135,12 +138,33 @@ fn puzzle2() {
             }
         }
     }
-    println!("Modulo method: {}", pass_zero);
+    print!("Modulo method: {}", pass_zero);
 }
 
 pub fn run() {
     println!("============= Day 1 =============");
 
-    puzzle1();
-    puzzle2();
+    let aoc = AocParser::new("inputs/day1/input.txt", Separator::Newline).unwrap();
+
+    let now = Instant::now();
+    puzzle1(aoc);
+    let elapsed = now.elapsed();
+    print!(" [{:.2?}]", elapsed);
+    println!();
+
+    let aoc = AocParser::new("inputs/day1/input.txt", Separator::Newline).unwrap();
+
+    let now = Instant::now();
+    puzzle2_brute(aoc);
+    let elapsed = now.elapsed();
+    print!(" [{:.2?}]", elapsed);
+    println!();
+
+    let aoc = AocParser::new("inputs/day1/input.txt", Separator::Newline).unwrap();
+
+    let now = Instant::now();
+    puzzle2(aoc);
+    let elapsed = now.elapsed();
+    print!(" [{:.2?}]", elapsed);
+    println!();
 }

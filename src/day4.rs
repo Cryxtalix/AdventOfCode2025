@@ -1,4 +1,7 @@
 use libaocparser_rs::*;
+use std::{
+    time::Instant,
+};
 
 enum RelativePos {
     TopLeft,
@@ -56,7 +59,7 @@ fn get_coordinate(pos: &RelativePos, coord: (usize, usize)) -> Option<(usize, us
     }
 }
 
-fn puzzle1() {
+fn puzzle1(aoc: AocParser) {
     fn is_paper(coord: (usize, usize), buf: &[[u8; 139]; 139]) -> bool {
         buf[coord.0][coord.1] == 64
     }
@@ -82,7 +85,6 @@ fn puzzle1() {
         total < 4
     }
 
-    let aoc = AocParser::new("inputs/day4/input.txt", Separator::Newline).unwrap();
     let aoc = aoc.get();
     let mut buf: [[u8; 139]; 139] = [[0; 139]; 139];
     for (idx, line) in aoc.iter().enumerate() {
@@ -97,11 +99,11 @@ fn puzzle1() {
             }
         }
     }
-    println!("Puzzle 1: {}", total);
+    print!("Puzzle 1: {}", total);
 }
 
 
-fn puzzle2() {
+fn puzzle2(aoc: AocParser) {
     fn is_paper(coord: (usize, usize), buf: &[[u8; 139]; 139]) -> bool {
         let item = buf[coord.0][coord.1];
         item == 64 || item == 35
@@ -163,7 +165,6 @@ fn puzzle2() {
         }
     }
 
-    let aoc = AocParser::new("inputs/day4/input.txt", Separator::Newline).unwrap();
     let aoc = aoc.get();
     let mut buf: [[u8; 139]; 139] = [[0; 139]; 139];
     for (idx, line) in aoc.iter().enumerate() {
@@ -184,12 +185,25 @@ fn puzzle2() {
 
     let end = count_paper(&buf);
     let removed = start - end;
-    println!("Puzzle 2: {}", removed);
+    print!("Puzzle 2: {}", removed);
 }
 
 pub fn run() {
     println!("============= Day 4 =============");
 
-    puzzle1();
-    puzzle2();
+    let aoc = AocParser::new("inputs/day4/input.txt", Separator::Newline).unwrap();
+
+    let now = Instant::now();
+    puzzle1(aoc);
+    let elapsed = now.elapsed();
+    print!(" [{:.2?}]", elapsed);
+    println!();
+
+    let aoc = AocParser::new("inputs/day4/input.txt", Separator::Newline).unwrap();
+
+    let now = Instant::now();
+    puzzle2(aoc);
+    let elapsed = now.elapsed();
+    print!(" [{:.2?}]", elapsed);
+    println!();
 }

@@ -1,5 +1,6 @@
 use libaocparser_rs::*;
 use std::{
+    time::Instant,
     str::FromStr,
 };
 use crate::PuzzleError;
@@ -40,7 +41,7 @@ impl FromStr for IngredientID {
     }
 }
 
-fn puzzle1() {
+fn puzzle1(aoc: AocParser) {
     fn is_fresh(fresh_ranges: &Vec<FreshRangeInc>, id: &u64) -> bool {
         let mut is_within = false;
         for range in fresh_ranges {
@@ -52,7 +53,6 @@ fn puzzle1() {
         is_within
     }
 
-    let aoc = AocParser::new("inputs/day5/input.txt", Separator::Newline).unwrap();
     let fresh_ranges: Vec<FreshRangeInc> = aoc.slice_as_type(None, Some(167)).unwrap();
     let ingredients: Vec<u64> = aoc.slice_as_type(Some(169), None).unwrap();
 
@@ -64,10 +64,10 @@ fn puzzle1() {
         }
     }
 
-    println!("Puzzle 1: {}", total);
+    print!("Puzzle 1: {}", total);
 }
 
-fn puzzle2() {
+fn puzzle2(aoc: AocParser) {
     /// Groups are ranges that can be coalesced into a single continuous range
     /// Returns index of final member and largest final id in group
     fn find_group(fresh_ranges: &[FreshRangeInc], start_idx:  usize) -> (usize, u64) {
@@ -87,7 +87,6 @@ fn puzzle2() {
         (last, largest)
     }
 
-    let aoc = AocParser::new("inputs/day5/input.txt", Separator::Newline).unwrap();
     let mut fresh_ranges: Vec<FreshRangeInc> = aoc.slice_as_type(None, Some(167)).unwrap();
     fresh_ranges.sort_by(|a, b| a.start.cmp(&b.start));
     let length = fresh_ranges.len();
@@ -106,12 +105,25 @@ fn puzzle2() {
         }
     }
 
-    println!("Puzzle 2: {}", total);
+    print!("Puzzle 2: {}", total);
 }
 
 pub fn run() {
     println!("============= Day 5 =============");
 
-    puzzle1();
-    puzzle2();
+    let aoc = AocParser::new("inputs/day5/input.txt", Separator::Newline).unwrap();
+
+    let now = Instant::now();
+    puzzle1(aoc);
+    let elapsed = now.elapsed();
+    print!(" [{:.2?}]", elapsed);
+    println!();
+
+    let aoc = AocParser::new("inputs/day5/input.txt", Separator::Newline).unwrap();
+
+    let now = Instant::now();
+    puzzle2(aoc);
+    let elapsed = now.elapsed();
+    print!(" [{:.2?}]", elapsed);
+    println!();
 }

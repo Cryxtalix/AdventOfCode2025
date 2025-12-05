@@ -1,6 +1,9 @@
 use libaocparser_rs::*;
+use std::{
+    time::Instant,
+};
 
-fn puzzle1() {
+fn puzzle1(aoc: AocParser) {
     fn get_highest_first(s: &str) -> (u32, usize) {
         // Exclude last position, find highest value digit
         let (exclude, _) = s.split_at(99);
@@ -29,7 +32,6 @@ fn puzzle1() {
         char::to_digit(max, 10).unwrap()
     }
 
-    let aoc = AocParser::new("inputs/day3/input.txt", Separator::Newline).unwrap();
     let aoc = aoc.get();
 
     let mut total = 0;
@@ -40,10 +42,10 @@ fn puzzle1() {
         let final_val = (first_digit * 10) + second_digit;
         total += final_val;
     }
-    println!("Puzzle 1: {}", total);
+    print!("Puzzle 1: {}", total);
 }
 
-fn puzzle2() {
+fn puzzle2(aoc: AocParser) {
     // Select earliest highest value digit
     fn get_highest(s: &str, start_pos: usize, end_pos: usize) -> (usize, u64) {
         let slice = &s[start_pos..end_pos];
@@ -62,7 +64,6 @@ fn puzzle2() {
         (pos, val)
     }
 
-    let aoc = AocParser::new("inputs/day3/input.txt", Separator::Newline).unwrap();
     let aoc = aoc.get();
  
     let mut total = 0;
@@ -80,11 +81,25 @@ fn puzzle2() {
         }
         total += bank_max;
     }
-    println!("Puzzle 2: {}", total);
+    print!("Puzzle 2: {}", total);
 }
 
 pub fn run() {
     println!("============= Day 3 =============");
-    puzzle1();
-    puzzle2();
+
+    let aoc = AocParser::new("inputs/day3/input.txt", Separator::Newline).unwrap();
+
+    let now = Instant::now();
+    puzzle1(aoc);
+    let elapsed = now.elapsed();
+    print!(" [{:.2?}]", elapsed);
+    println!();
+
+    let aoc = AocParser::new("inputs/day3/input.txt", Separator::Newline).unwrap();
+
+    let now = Instant::now();
+    puzzle2(aoc);
+    let elapsed = now.elapsed();
+    print!(" [{:.2?}]", elapsed);
+    println!();
 }
