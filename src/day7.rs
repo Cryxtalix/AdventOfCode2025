@@ -161,35 +161,35 @@ fn puzzle2(aoc: AocParser) {
     //Traverse graph
     let child_map = Rc::new(child_map);
     // Stores precomputed paths at each node, so I can reference instead of recalculating
-    let paths_map: Rc<RefCell<HashMap<Node, u64>>> = Rc::new(RefCell::new(HashMap::new()));
+    let mut paths_map: HashMap<Node, u64> = HashMap::new();
 
     // Recursion, but without repeats by using paths_map
-    fn node_count(node: &Node, child_map: Rc<HashMap<Node, (Option<Node>, Option<Node>)>>, paths_map: Rc<RefCell<HashMap<Node, u64>>>) -> u64 {
+    fn node_count(node: &Node, child_map: &HashMap<Node, (Option<Node>, Option<Node>)>, paths_map: &mut HashMap<Node, u64>) -> u64 {
         // Paths map already contains path total for node
-        if let Some(paths) = paths_map.borrow().get(node) {
+        if let Some(paths) = paths_map.get(node) {
             *paths
         } else {
             let children = child_map.get(node).unwrap();
             let count = match *children {
                 (None, None) => 2,
                 (Some(left), Some(right)) => {
-                    node_count(&left, child_map.clone(), paths_map.clone()) +
-                    node_count(&right, child_map.clone(), paths_map.clone())
+                    node_count(&left, child_map, paths_map) +
+                    node_count(&right, child_map, paths_map)
                 },
                 (Some(left), None) => {
-                    node_count(&left, child_map.clone(), paths_map.clone()) + 1
+                    node_count(&left, child_map, paths_map) + 1
                 },
                 (None, Some(right)) => {
-                    1 + node_count(&right, child_map.clone(), paths_map.clone())
+                    1 + node_count(&right, child_map, paths_map)
                 },
             };
-            paths_map.borrow_mut().insert(*node, count);
+            paths_map.insert(*node, count);
             count
         }
     }
     
     let first_node = first_node.unwrap();
-    let total = node_count(&first_node, child_map, paths_map);
+    let total = node_count(&first_node, &child_map, &mut paths_map);
     print!("Puzzle 2: {}", total);
 }
 
