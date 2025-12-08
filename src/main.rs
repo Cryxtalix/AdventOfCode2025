@@ -4,6 +4,7 @@ mod day3;
 mod day4;
 mod day5;
 mod day6;
+mod day7;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct PuzzleError;
@@ -22,5 +23,7 @@ fn main() {
     day5::run();
     println!();
     day6::run();
+    println!();
+    day7::run();
     println!();
 }
